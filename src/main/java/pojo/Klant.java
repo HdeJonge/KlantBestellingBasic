@@ -3,14 +3,28 @@ package pojo;
 import java.util.List;
 
 public class Klant {
+	Integer id;
 	String voornaam;
 	String achternaam;
 	String tussenvoegsel;
+	String email;
 	List<Adres> adressenlijst;
 	List<Bestelling> bestellingen;
 	Account account;
+	public Klant(){
+	}
+	public Klant(String voornaam,String achternaam){
+		this.voornaam = voornaam;
+		this.achternaam = achternaam;
+	}
 	public String getVoornaam() {
 		return voornaam;
+	}
+	public Integer getId() {
+		return id;
+	}
+	public void setId(Integer id) {
+		this.id = id;
 	}
 	public void setVoornaam(String voornaam) {
 		this.voornaam = voornaam;
@@ -26,6 +40,12 @@ public class Klant {
 	}
 	public void setTussenvoegsel(String tussenvoegsel) {
 		this.tussenvoegsel = tussenvoegsel;
+	}
+	public String getEmail() {
+		return email;
+	}
+	public void setEmail(String email) {
+		this.email = email;
 	}
 	public List<Adres> getAdressenlijst() {
 		return adressenlijst;
@@ -44,5 +64,8 @@ public class Klant {
 	}
 	public void setAccount(Account account) {
 		this.account = account;
+	}
+	public String getFullName(){
+		return voornaam + " " + tussenvoegsel + " " + achternaam;
 	}
 }

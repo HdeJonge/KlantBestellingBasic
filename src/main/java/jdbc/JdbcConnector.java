@@ -2,42 +2,48 @@ package jdbc;
 
 import java.sql.*;
 import org.slf4j.*;
-import parser.DomXmlParser;
+import parser.*;
 
 public class JdbcConnector {
-	String driver;
-	String user;
-	String password;
-	String url;
-	public static void main(String[]args) throws ClassNotFoundException, SQLException{
-		JdbcConnector jc = new JdbcConnector();
-		jc.getConnection();
-	}
+	private Connection connection;
+	private String driver;
+	private String user;
+	private String password;
+	private String url;
+	
+	private static final JdbcConnector instance = new JdbcConnector();
 	public JdbcConnector(){
-		DomXmlParser parser = new DomXmlParser();
+		//DomXmlParser parser = new DomXmlParser();
+		Dom4JParser parser = new Dom4JParser();
 		driver = parser.getDriver();
 		user = parser.getUser();
 		password = parser.getPassword();
 		url = parser.getUrl();
-
 	}
-	public void getConnection() throws ClassNotFoundException, SQLException{
+	public void createConnection(){
 		Logger logger = LoggerFactory.getLogger(JdbcConnector.class);
-		Class.forName(driver);
-		logger.info("Driver loaded");
-		Connection connection = DriverManager.getConnection(url,user,password);
-		logger.info("Database connected");
-
-		Statement statement = connection.createStatement();
-		ResultSet resultSet = statement.executeQuery("select * from klant");
-		
-		while(resultSet.next()){
-			System.out.println(
-					resultSet.getString(1) + " " + resultSet.getString(2) + " " + resultSet.getString(3));
+		try {
+			Class.forName(driver);
+			logger.info("Driver loaded");
+			connection = DriverManager.getConnection(url,user,password);
+			logger.info("Database connected");
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		} catch (SQLException e) {
+			e.printStackTrace();
 		}
-		
-		connection.close();
-		logger.info("Connection closed");
-		
+	}
+	public static Connection getConnection(){
+		try {
+			if(instance.connection == null){
+				instance.createConnection();
+			}
+			else if(instance.connection.isClosed()){
+				instance.createConnection();
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return instance.connection;
 	}
 }
