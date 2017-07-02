@@ -1,7 +1,7 @@
-/parser/
-/jdbc/
-/dao/
+/views/
 /pojo/
-/run/
-/test/
+/controller/
+/dao/
 /interfaces/
+/jdbc/
+/run/

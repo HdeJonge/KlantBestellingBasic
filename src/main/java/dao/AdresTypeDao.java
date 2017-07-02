@@ -18,6 +18,7 @@ public class AdresTypeDao implements AdresTypeDaoInterface {
 			Connection connection = JdbcConnector.getConnection();
 			PreparedStatement stmt = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
 			stmt.setString(1, adresType.getType());
+			stmt.executeUpdate();
 			ResultSet resultSet = stmt.getGeneratedKeys();
 			if (resultSet.isBeforeFirst()) {
 				resultSet.next();

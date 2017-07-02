@@ -6,6 +6,13 @@ public class Artikel {
 	String naam;
 	BigDecimal prijs;
 	Integer voorraad;
+	public Artikel(){
+	}
+	public Artikel(String naam, BigDecimal prijs, int voorraad) {
+		this.naam = naam;
+		this.prijs = prijs;
+		this.voorraad=  voorraad;
+	}
 	public Integer getId() {
 		return id;
 	}
@@ -29,6 +36,12 @@ public class Artikel {
 	}
 	public void setVoorraad(Integer voorraad) {
 		this.voorraad = voorraad;
+	}
+	public String toString(){
+		return "naam=" + naam 
+				+ " prijs=" + prijs 
+				+ " voorrad=" + voorraad;
+		
 	}
 
 }

@@ -21,6 +21,7 @@ public class AdresDao implements AdresDaoInterface {
 			stmt.setInt(2, adres.getHuisnummer());
 			stmt.setString(3, adres.getToevoeging());
 			stmt.setString(4, adres.getPostcode());
+			stmt.executeUpdate();
 			ResultSet resultSet = stmt.getGeneratedKeys();
 			if (resultSet.isBeforeFirst()) {
 				resultSet.next();

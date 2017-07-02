@@ -18,6 +18,7 @@ public class BestellingDao implements BestellingDaoInterface{
 			Connection connection = JdbcConnector.getConnection();
 			PreparedStatement stmt = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
 			stmt.setBigDecimal(1, bestelling.getTotaalPrijs());
+			stmt.executeUpdate();
 			ResultSet resultSet = stmt.getGeneratedKeys();
 			if (resultSet.isBeforeFirst()) {
 				resultSet.next();

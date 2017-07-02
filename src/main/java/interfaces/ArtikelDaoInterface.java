@@ -6,7 +6,7 @@ import pojo.*;
 public interface ArtikelDaoInterface {
 	public Integer createArtikel(Artikel artikel);
 	public Artikel getArtikel(Integer id);
-	public List<Artikel> getAlleArtikels();
+	public List<Artikel> getAlleArtikelen();
 	public void updateArtikel(Artikel artikel);
 	public boolean deleteArtikel(Artikel artikel);
 	public boolean deleteArtikel(Integer id);

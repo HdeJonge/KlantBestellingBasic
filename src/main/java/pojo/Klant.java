@@ -68,4 +68,9 @@ public class Klant {
 	public String getFullName(){
 		return voornaam + " " + tussenvoegsel + " " + achternaam;
 	}
+	public int hashCode(){
+		int hash = 1;
+		hash *= 17 + id.hashCode();
+		return hash;
+	}
 }

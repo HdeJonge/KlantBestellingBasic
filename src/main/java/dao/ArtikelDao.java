@@ -20,6 +20,7 @@ public class ArtikelDao implements ArtikelDaoInterface{
 			stmt.setString(1, artikel.getNaam());
 			stmt.setBigDecimal(2, artikel.getPrijs());
 			stmt.setInt(3, artikel.getVoorraad());
+			stmt.executeUpdate();
 			ResultSet resultSet = stmt.getGeneratedKeys();
 			if (resultSet.isBeforeFirst()) {
 				resultSet.next();
@@ -58,7 +59,7 @@ public class ArtikelDao implements ArtikelDaoInterface{
 		return artikel;
 	}
 
-	public List<Artikel> getAlleArtikels() {
+	public List<Artikel> getAlleArtikelen() {
 		String sql = "select * from artikel";
 		List<Artikel> artikels = new ArrayList<Artikel>();
 		try {

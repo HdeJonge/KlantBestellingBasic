@@ -19,6 +19,7 @@ public class AccountDao implements AccountDaoInterface{
 			PreparedStatement stmt = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
 			stmt.setString(1, account.getUser());
 			stmt.setString(2, account.getWachtwoord());
+			stmt.executeUpdate();
 			ResultSet resultSet = stmt.getGeneratedKeys();
 			if (resultSet.isBeforeFirst()) {
 				resultSet.next();

@@ -20,6 +20,7 @@ public class KlantDao implements KlantDaoInterface {
 			stmt.setString(1, klant.getVoornaam());
 			stmt.setString(2, klant.getAchternaam());
 			stmt.setString(3, klant.getTussenvoegsel());
+			stmt.executeUpdate();
 			ResultSet resultSet = stmt.getGeneratedKeys();
 			if (resultSet.isBeforeFirst()) {
 				resultSet.next();
