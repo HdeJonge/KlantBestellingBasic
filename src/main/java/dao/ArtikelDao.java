@@ -83,7 +83,7 @@ public class ArtikelDao implements ArtikelDaoInterface{
 	}
 
 	public void updateArtikel(Artikel artikel) {
-		String sql = "Update artikel set user= ?, wachtwoord=? where id =?";
+		String sql = "Update artikel set naam= ?, prijs=?, voorraad=? where id =?";
 		try {
 			Connection connection = JdbcConnector.getConnection();
 			PreparedStatement stmt = connection.prepareStatement(sql);

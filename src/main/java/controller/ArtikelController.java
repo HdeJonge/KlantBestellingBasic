@@ -20,5 +20,9 @@ public class ArtikelController {
 		return dao.createArtikel(artikel);
 		
 	}
+	public static void updateArtikel(Artikel artikel) {
+		ArtikelDaoInterface dao = new ArtikelDao();
+		dao.updateArtikel(artikel);
+	}
 
 }

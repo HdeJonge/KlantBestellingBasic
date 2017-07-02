@@ -27,7 +27,7 @@ public class HoofdMenu {
 		        .read("Keuze");
 
 		switch(keuze){
-		case 1: ArtikelMenu.start();
+		case 1: new ArtikelMenu().start();
 				break;
 		case 2: 
 								
