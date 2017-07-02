@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import interfaces.KlantDaoInterface;
-import jdbc.JdbcConnector;
 import pojo.Klant;
 
 public class KlantDaoIS implements KlantDaoInterface {
@@ -21,7 +20,6 @@ public class KlantDaoIS implements KlantDaoInterface {
 			stmt.setString(1, klant.getVoornaam());
 			stmt.setString(2, klant.getAchternaam());
 			stmt.setString(3, klant.getTussenvoegsel());
-			boolean isStatementExcecuted = stmt.execute();
 			ResultSet resultSet = stmt.getGeneratedKeys();
 			if (resultSet.isBeforeFirst()) {
 				resultSet.next();
