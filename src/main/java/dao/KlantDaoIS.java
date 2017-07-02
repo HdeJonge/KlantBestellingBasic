@@ -4,6 +4,7 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
+import interfaces.KlantDaoInterface;
 import jdbc.JdbcConnector;
 import pojo.Klant;
 
@@ -81,12 +82,13 @@ public class KlantDaoIS implements KlantDaoInterface {
 	}
 
 	public void updateKlant(Klant klant) {
-		String sql = "Update klant set voornaam = ?, achternaam=?,tussenvoegsel=?";
+		String sql = "Update klant set voornaam = ?, achternaam=?,tussenvoegsel=? where id=?";
 		try {
 			PreparedStatement stmt = connection.prepareStatement(sql);
 			stmt.setString(1, klant.getVoornaam());
 			stmt.setString(2, klant.getAchternaam());
 			stmt.setString(3, klant.getTussenvoegsel());
+			stmt.setInt(4, klant.getId());
 			stmt.execute();
 
 		} catch (SQLException e) {

@@ -4,37 +4,35 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-import interfaces.KlantDaoInterface;
+import interfaces.BestellingDaoInterface;
 import jdbc.JdbcConnector;
-import pojo.Klant;
+import pojo.*;
 
-public class KlantDao implements KlantDaoInterface {
+public class BestellingDao implements BestellingDaoInterface{
 
 	protected Connection connection;
 
-	public Integer createKlant(Klant klant) {
-		String sql = "insert into klant(voornaam, achternaam, tussenvoegsel) values (?,?,?)";
+	public Integer createBestelling(Bestelling bestelling) {
+		String sql = "insert into Bestelling(totaalPrijs) values (?)";
 		try {
 			Connection connection = JdbcConnector.getConnection();
 			PreparedStatement stmt = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
-			stmt.setString(1, klant.getVoornaam());
-			stmt.setString(2, klant.getAchternaam());
-			stmt.setString(3, klant.getTussenvoegsel());
+			stmt.setBigDecimal(1, bestelling.getTotaalPrijs());
 			ResultSet resultSet = stmt.getGeneratedKeys();
 			if (resultSet.isBeforeFirst()) {
 				resultSet.next();
-				klant.setId(resultSet.getInt(1));
+				bestelling.setId(resultSet.getInt(1));
 			}
 
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		return klant.getId();
+		return bestelling.getId();
 
 	}
-	public Klant getKlant(Integer id) {
-		String sql = "select * from klant where id=?";
-		Klant klant = new Klant();
+	public Bestelling getBestelling(Integer id) {
+		String sql = "select * from bestelling where id=?";
+		Bestelling bestelling = new Bestelling();
 		try {
 			Connection connection = JdbcConnector.getConnection();
 			PreparedStatement stmt = connection.prepareStatement(sql);
@@ -43,53 +41,46 @@ public class KlantDao implements KlantDaoInterface {
 			ResultSet rs = stmt.getResultSet();
 			if (rs.isBeforeFirst()) {
 				rs.next();
-				klant.setId(rs.getInt(1));
-				klant.setVoornaam(rs.getString(2));
-				klant.setAchternaam(rs.getString(3));
-				klant.setTussenvoegsel(rs.getString(4));
+				bestelling.setId(rs.getInt(1));
+				bestelling.setTotaalPrijs(rs.getBigDecimal(2));
 			}
             else{
-            	System.err.println("Geen klant gevonden!");
+            	System.err.println("Geen bestelling gevonden!");
             }
 
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		return klant;
+		return bestelling;
 	}
 
-	public List<Klant> getAlleKlanten() {
-		String sql = "select * from klant";
-		List<Klant> klanten = new ArrayList<Klant>();
+	public List<Bestelling> getAlleBestellings() {
+		String sql = "select * from bestelling";
+		List<Bestelling> bestellings = new ArrayList<Bestelling>();
 		try {
 			Connection connection = JdbcConnector.getConnection();
 			PreparedStatement stmt = connection.prepareStatement(sql);
 			stmt.execute();
 			ResultSet rs = stmt.getResultSet();
 			while(rs.next()){
-				Klant klant = new Klant();
-				klant.setId(rs.getInt(1));
-				klant.setVoornaam(rs.getString(2));
-				klant.setAchternaam(rs.getString(3));
-				klant.setTussenvoegsel(rs.getString(4));
-				klanten.add(klant);
+				Bestelling bestelling = new Bestelling();
+				bestelling.setId(rs.getInt(1));
+				bestelling.setTotaalPrijs(rs.getBigDecimal(2));
 			}
 
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		return klanten;
+		return bestellings;
 	}
 
-	public void updateKlant(Klant klant) {
-		String sql = "Update klant set voornaam = ?, achternaam=?,tussenvoegsel=? where id=?";
+	public void updateBestelling(Bestelling bestelling) {
+		String sql = "Update bestelling set totaalprijs= ? where id =?";
 		try {
 			Connection connection = JdbcConnector.getConnection();
 			PreparedStatement stmt = connection.prepareStatement(sql);
-			stmt.setString(1, klant.getVoornaam());
-			stmt.setString(2, klant.getAchternaam());
-			stmt.setString(3, klant.getTussenvoegsel());
-			stmt.setInt(4, klant.getId());
+			stmt.setBigDecimal(1, bestelling.getTotaalPrijs());
+			stmt.setInt(2, bestelling.getId());
 			stmt.execute();
 
 		} catch (SQLException e) {
@@ -97,11 +88,11 @@ public class KlantDao implements KlantDaoInterface {
 		}
 	}
 
-	public boolean deleteKlant(Klant klant) {
-		return deleteKlant(klant.getId());
+	public boolean deleteBestelling(Bestelling bestelling) {
+		return deleteBestelling(bestelling.getId());
 	}
-	public boolean deleteKlant(Integer id) {
-		String sql = "DELETE FROM klant WHERE id = ?";
+	public boolean deleteBestelling(Integer id) {
+		String sql = "DELETE FROM bestelling WHERE id = ?";
 		int rows = -1;
 		try{
 			Connection connection = JdbcConnector.getConnection();

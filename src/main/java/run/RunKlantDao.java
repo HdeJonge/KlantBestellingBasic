@@ -7,6 +7,7 @@ import java.sql.Connection;
 import java.util.List;
 
 import dao.*;
+import interfaces.KlantDaoInterface;
 import jdbc.JdbcConnector;
 import pojo.Klant;
 

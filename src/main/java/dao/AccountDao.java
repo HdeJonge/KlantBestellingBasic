@@ -4,37 +4,36 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-import interfaces.KlantDaoInterface;
+import interfaces.AccountDaoInterface;
 import jdbc.JdbcConnector;
-import pojo.Klant;
+import pojo.*;
 
-public class KlantDao implements KlantDaoInterface {
+public class AccountDao implements AccountDaoInterface{
 
 	protected Connection connection;
 
-	public Integer createKlant(Klant klant) {
-		String sql = "insert into klant(voornaam, achternaam, tussenvoegsel) values (?,?,?)";
+	public Integer createAccount(Account account) {
+		String sql = "insert into Account(user, wachtwoord) values (?,?)";
 		try {
 			Connection connection = JdbcConnector.getConnection();
 			PreparedStatement stmt = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
-			stmt.setString(1, klant.getVoornaam());
-			stmt.setString(2, klant.getAchternaam());
-			stmt.setString(3, klant.getTussenvoegsel());
+			stmt.setString(1, account.getUser());
+			stmt.setString(2, account.getWachtwoord());
 			ResultSet resultSet = stmt.getGeneratedKeys();
 			if (resultSet.isBeforeFirst()) {
 				resultSet.next();
-				klant.setId(resultSet.getInt(1));
+				account.setId(resultSet.getInt(1));
 			}
 
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		return klant.getId();
+		return account.getId();
 
 	}
-	public Klant getKlant(Integer id) {
-		String sql = "select * from klant where id=?";
-		Klant klant = new Klant();
+	public Account getAccount(Integer id) {
+		String sql = "select * from account where id=?";
+		Account account = new Account();
 		try {
 			Connection connection = JdbcConnector.getConnection();
 			PreparedStatement stmt = connection.prepareStatement(sql);
@@ -43,53 +42,50 @@ public class KlantDao implements KlantDaoInterface {
 			ResultSet rs = stmt.getResultSet();
 			if (rs.isBeforeFirst()) {
 				rs.next();
-				klant.setId(rs.getInt(1));
-				klant.setVoornaam(rs.getString(2));
-				klant.setAchternaam(rs.getString(3));
-				klant.setTussenvoegsel(rs.getString(4));
+				account.setId(rs.getInt(1));
+				account.setUser(rs.getString(2));
+				account.setWachtwoord(rs.getString(3));
 			}
             else{
-            	System.err.println("Geen klant gevonden!");
+            	System.err.println("Geen account gevonden!");
             }
 
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		return klant;
+		return account;
 	}
 
-	public List<Klant> getAlleKlanten() {
-		String sql = "select * from klant";
-		List<Klant> klanten = new ArrayList<Klant>();
+	public List<Account> getAlleAccounts() {
+		String sql = "select * from account";
+		List<Account> accounts = new ArrayList<Account>();
 		try {
 			Connection connection = JdbcConnector.getConnection();
 			PreparedStatement stmt = connection.prepareStatement(sql);
 			stmt.execute();
 			ResultSet rs = stmt.getResultSet();
 			while(rs.next()){
-				Klant klant = new Klant();
-				klant.setId(rs.getInt(1));
-				klant.setVoornaam(rs.getString(2));
-				klant.setAchternaam(rs.getString(3));
-				klant.setTussenvoegsel(rs.getString(4));
-				klanten.add(klant);
+				Account account = new Account();
+				account.setId(rs.getInt(1));
+				account.setUser(rs.getString(2));
+				account.setWachtwoord(rs.getString(3));
+				accounts.add(account);
 			}
 
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		return klanten;
+		return accounts;
 	}
 
-	public void updateKlant(Klant klant) {
-		String sql = "Update klant set voornaam = ?, achternaam=?,tussenvoegsel=? where id=?";
+	public void updateAccount(Account account) {
+		String sql = "Update account set user= ?, wachtwoord=? where id = ?";
 		try {
 			Connection connection = JdbcConnector.getConnection();
 			PreparedStatement stmt = connection.prepareStatement(sql);
-			stmt.setString(1, klant.getVoornaam());
-			stmt.setString(2, klant.getAchternaam());
-			stmt.setString(3, klant.getTussenvoegsel());
-			stmt.setInt(4, klant.getId());
+			stmt.setString(1, account.getUser());
+			stmt.setString(2, account.getWachtwoord());
+			stmt.setInt(3, account.getId());
 			stmt.execute();
 
 		} catch (SQLException e) {
@@ -97,11 +93,11 @@ public class KlantDao implements KlantDaoInterface {
 		}
 	}
 
-	public boolean deleteKlant(Klant klant) {
-		return deleteKlant(klant.getId());
+	public boolean deleteAccount(Account account) {
+		return deleteAccount(account.getId());
 	}
-	public boolean deleteKlant(Integer id) {
-		String sql = "DELETE FROM klant WHERE id = ?";
+	public boolean deleteAccount(Integer id) {
+		String sql = "DELETE FROM account WHERE id = ?";
 		int rows = -1;
 		try{
 			Connection connection = JdbcConnector.getConnection();

@@ -4,93 +4,96 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
+import interfaces.AdresDaoInterface;
 import jdbc.JdbcConnector;
-import pojo.*;
+import pojo.Adres;
 
-public class AdresDao {
-/*
+public class AdresDao implements AdresDaoInterface {
+
 	protected Connection connection;
 
-	public Long createKlant(Adres adres) {
-		String sql = "insert into Adres(straat, huisnummer, toevoeging, postcode) values 	(?,?,?,?)";
+	public Integer createAdres(Adres adres) {
+		String sql = "insert into adres(straat, huisnummer, toevoeging, postcode) values (?,?,?)";
 		try {
 			Connection connection = JdbcConnector.getConnection();
 			PreparedStatement stmt = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
-			stmt = connection.prepareStatement(sql);
 			stmt.setString(1, adres.getStraat());
-			stmt.setString(2, adres.getHuisnummer());
-			stmt.setString(3, adres.getTussenvoegsel());
-			stmt.setString(4, adres.getAchternaam());
-
+			stmt.setInt(2, adres.getHuisnummer());
+			stmt.setString(3, adres.getToevoeging());
+			stmt.setString(4, adres.getPostcode());
 			ResultSet resultSet = stmt.getGeneratedKeys();
 			if (resultSet.isBeforeFirst()) {
 				resultSet.next();
-				klant.setId(resultSet.getLong(1));
+				adres.setId(resultSet.getInt(1));
 			}
 
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		return klant.getId();
+		return adres.getId();
 
 	}
-	public Klant getKlant(Long id) {
-		String sql = "select voornaam, achternaam, tussenvoegsel, email from klant where id=?";
-		Klant klant = new Klant();
+	public Adres getAdres(Integer id) {
+		String sql = "select * from adres where id=?";
+		Adres adres = new Adres();
 		try {
 			Connection connection = JdbcConnector.getConnection();
 			PreparedStatement stmt = connection.prepareStatement(sql);
-			stmt = connection.prepareStatement(sql);
 			stmt.setObject(1, id);
 			stmt.execute();
 			ResultSet rs = stmt.getResultSet();
-			klant.setId(rs.getLong(1));
-			klant.setVoornaam(rs.getString(2));
-			klant.setAchternaam(rs.getString(3));
-			klant.setTussenvoegsel(rs.getString(4));
-			klant.setEmail(rs.getString(5));
+			if (rs.isBeforeFirst()) {
+				rs.next();
+				adres.setId(rs.getInt(1));
+				adres.setStraat(rs.getString(2));
+				adres.setHuisnummer(rs.getInt(3));
+				adres.setToevoeging(rs.getString(4));
+				adres.setPostcode(rs.getString(5));
+			}
+            else{
+            	System.err.println("Geen adres gevonden!");
+            }
 
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		return klant;
+		return adres;
 	}
 
-	public List<Klant> getAlleKlanten() {
-		String sql = "select * from klant";
-		List<Klant> klanten = new ArrayList<Klant>();
+	public List<Adres> getAlleAdressen() {
+		String sql = "select * from adres";
+		List<Adres> adressen = new ArrayList<Adres>();
 		try {
 			Connection connection = JdbcConnector.getConnection();
 			PreparedStatement stmt = connection.prepareStatement(sql);
-			stmt = connection.prepareStatement(sql);
 			stmt.execute();
 			ResultSet rs = stmt.getResultSet();
 			while(rs.next()){
-				Klant klant = new Klant();
-				klant.setId(rs.getLong(1));
-				klant.setVoornaam(rs.getString(2));
-				klant.setAchternaam(rs.getString(3));
-				klant.setTussenvoegsel(rs.getString(4));
-				klant.setEmail(rs.getString(5));
-				klanten.add(klant);
+				Adres adres = new Adres();
+				adres.setId(rs.getInt(1));
+				adres.setStraat(rs.getString(2));
+				adres.setHuisnummer(rs.getInt(3));
+				adres.setToevoeging(rs.getString(4));
+				adres.setPostcode(rs.getString(5));
+				adressen.add(adres);
 			}
 
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		return klanten;
+		return adressen;
 	}
 
-	public void updateKlant(Klant klant) {
-		String sql = "Update klant set voornaam = ?, achternaam=?,tussenvoegsel=?,email=?";
+	public void updateAdres(Adres adres) {
+		String sql = "Update adres set straat= ?, huisnummer=?, toevoeging=?, postcode=? where id =?";
 		try {
 			Connection connection = JdbcConnector.getConnection();
 			PreparedStatement stmt = connection.prepareStatement(sql);
-			stmt = connection.prepareStatement(sql);
-			stmt.setString(1, klant.getVoornaam());
-			stmt.setString(2, klant.getAchternaam());
-			stmt.setString(3, klant.getTussenvoegsel());
-			stmt.setString(4, klant.getAchternaam());
+			stmt.setString(1, adres.getStraat());
+			stmt.setInt(2, adres.getHuisnummer());
+			stmt.setString(3, adres.getToevoeging());
+			stmt.setString(4, adres.getPostcode());
+			stmt.setInt(5, adres.getId());
 			stmt.execute();
 
 		} catch (SQLException e) {
@@ -98,20 +101,27 @@ public class AdresDao {
 		}
 	}
 
-	public void DeleteKlant(Klant klant) {
-		DeleteKlant(klant.getId());
+	public boolean deleteAdres(Adres adres) {
+		return deleteAdres(adres.getId());
 	}
-	public void DeleteKlant(Long id) {
-		String sql = "Delect from klant where id=?";
-		try {
+	public boolean deleteAdres(Integer id) {
+		String sql = "DELETE FROM adres WHERE id = ?";
+		int rows = -1;
+		try{
 			Connection connection = JdbcConnector.getConnection();
 			PreparedStatement stmt = connection.prepareStatement(sql);
-			stmt = connection.prepareStatement(sql);
 			stmt.setObject(1, id);
-
+			rows = stmt.executeUpdate();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-
-	}*/
+		return rows > 0;
+	}
+	public void close(){
+		try {
+			connection.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
 }

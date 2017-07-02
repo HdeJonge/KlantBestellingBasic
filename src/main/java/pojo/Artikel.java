@@ -4,7 +4,7 @@ import java.math.BigDecimal;
 public class Artikel {
 	Integer id;
 	String naam;
-	BigDecimal price;
+	BigDecimal prijs;
 	Integer voorraad;
 	public Integer getId() {
 		return id;
@@ -18,11 +18,11 @@ public class Artikel {
 	public void setNaam(String naam) {
 		this.naam = naam;
 	}
-	public BigDecimal getPrice() {
-		return price;
+	public BigDecimal getPrijs() {
+		return prijs;
 	}
-	public void setPrice(BigDecimal price) {
-		this.price = price;
+	public void setPrijs(BigDecimal price) {
+		this.prijs = price;
 	}
 	public Integer getVoorraad() {
 		return voorraad;
