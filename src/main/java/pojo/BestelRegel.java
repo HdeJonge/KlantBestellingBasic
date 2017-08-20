@@ -29,5 +29,8 @@ public class BestelRegel {
 	public void setAantal(Integer aantal) {
 		this.aantal = aantal;
 	}
+	public String toString(){
+		return id + "-"  + aantal;
+	}
 
 }

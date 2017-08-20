@@ -13,11 +13,12 @@ public class BestellingDao implements BestellingDaoInterface{
 	protected Connection connection;
 
 	public Integer createBestelling(Bestelling bestelling) {
-		String sql = "insert into Bestelling(totaalPrijs) values (?)";
+		String sql = "insert into Bestelling(totaalPrijs, klant_id) values (?,?)";
 		try {
 			Connection connection = JdbcConnector.getConnection();
 			PreparedStatement stmt = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
 			stmt.setBigDecimal(1, bestelling.getTotaalPrijs());
+			stmt.setInt(2, bestelling.getKlant().getId());
 			stmt.executeUpdate();
 			ResultSet resultSet = stmt.getGeneratedKeys();
 			if (resultSet.isBeforeFirst()) {
@@ -55,7 +56,7 @@ public class BestellingDao implements BestellingDaoInterface{
 		return bestelling;
 	}
 
-	public List<Bestelling> getAlleBestellings() {
+	public List<Bestelling> getAlleBestellingen() {
 		String sql = "select * from bestelling";
 		List<Bestelling> bestellings = new ArrayList<Bestelling>();
 		try {
@@ -73,6 +74,27 @@ public class BestellingDao implements BestellingDaoInterface{
 			e.printStackTrace();
 		}
 		return bestellings;
+	}
+	public List<Bestelling> getBestellingenKlant(Integer id) {
+		String sql = "select * from bestelling where klant_id=?";
+		List<Bestelling> bestellingen = new ArrayList<Bestelling>();
+		try {
+			Connection connection = JdbcConnector.getConnection();
+			PreparedStatement stmt = connection.prepareStatement(sql);
+			stmt.setObject(1, id);
+			stmt.execute();
+			ResultSet rs = stmt.getResultSet();
+			while(rs.next()){
+				Bestelling bestelling = new Bestelling();
+				bestelling.setId(rs.getInt(1));
+				bestelling.setTotaalPrijs(rs.getBigDecimal(2));
+				bestellingen.add(bestelling);
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return bestellingen;
 	}
 
 	public void updateBestelling(Bestelling bestelling) {

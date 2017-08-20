@@ -13,7 +13,7 @@ public class AccountDao implements AccountDaoInterface{
 	protected Connection connection;
 
 	public Integer createAccount(Account account) {
-		String sql = "insert into Account(user, wachtwoord) values (?,?)";
+		String sql = "insert into Account(username, wachtwoord) values (?,?)";
 		try {
 			Connection connection = JdbcConnector.getConnection();
 			PreparedStatement stmt = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
@@ -80,7 +80,7 @@ public class AccountDao implements AccountDaoInterface{
 	}
 
 	public void updateAccount(Account account) {
-		String sql = "Update account set user= ?, wachtwoord=? where id = ?";
+		String sql = "Update account set username= ?, wachtwoord=? where id = ?";
 		try {
 			Connection connection = JdbcConnector.getConnection();
 			PreparedStatement stmt = connection.prepareStatement(sql);
@@ -117,4 +117,22 @@ public class AccountDao implements AccountDaoInterface{
 			e.printStackTrace();
 		}
 	}
+	public boolean validateLogin(String username,String password) {
+		   try{           
+		       Class.forName("com.mysql.jdbc.Driver");  // MySQL database connection
+		       Connection conn = JdbcConnector.getConnection();
+		       PreparedStatement pst = conn.prepareStatement("Select * from account where username=? and wachtwoord=?");
+		       pst.setString(1, username); 
+		       pst.setString(2, password);
+		       ResultSet rs = pst.executeQuery();                        
+		       if(rs.next())            
+		           return true;    
+		       else
+		           return false;            
+		   }
+		   catch(Exception e){
+		       e.printStackTrace();
+		       return false;
+		   }       
+		}
 }

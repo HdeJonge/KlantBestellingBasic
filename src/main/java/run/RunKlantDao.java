@@ -23,7 +23,7 @@ public class RunKlantDao {
 	public static void addKlantNormalDao(){
 		
 		KlantDao klantDao = new KlantDao();
-		Klant klant = new Klant("Ian", "Nijhuis");
+		Klant klant = new Klant("Jan", "Jans");
 		Integer id = klantDao.createKlant(klant);
 		System.out.println("Aangemaakt ID: " + id);
 		Klant createdKlant = klantDao.getKlant(id);
@@ -39,7 +39,7 @@ public class RunKlantDao {
 	public static void addKlantISDao(){
 		Connection conn = JdbcConnector.getConnection();
 		KlantDaoInterface klantDao = new KlantDaoIS(conn);
-		Klant klant = new Klant("Ian", "Nijhuis");
+		Klant klant = new Klant("Jan", "Jans");
 		Integer id = klantDao.createKlant(klant);
 		System.out.println("Aangemaakt ID: " + id);
 		Klant createdKlant = klantDao.getKlant(id);

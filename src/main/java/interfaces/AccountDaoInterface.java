@@ -10,4 +10,5 @@ public interface AccountDaoInterface {
 	public void updateAccount(Account account);
 	public boolean deleteAccount(Account account);
 	public boolean deleteAccount(Integer id);
+	public boolean validateLogin(String user,String password);
 }

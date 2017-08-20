@@ -32,4 +32,10 @@ public class Bestelling {
 	public void setBestelRegels(List<BestelRegel> bestelRegels) {
 		this.bestelRegels = bestelRegels;
 	}
+	public void addBestelRegel(BestelRegel bestelRegel) {
+		this.bestelRegels.add(bestelRegel);
+	}
+	public String toString(){
+		return id + "-" + totaalPrijs;
+	}
 }
