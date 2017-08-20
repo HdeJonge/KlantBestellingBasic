@@ -38,9 +38,9 @@ public class HoofdMenu {
 				+ "\n Wat wilt u doen "
 				+ "\n 1: artikelmenu bekijken"
 				+ "\n 2: bestellingmenu bekijken"
-				+ "\n 3: klantmenu bekijken"
-				+ "\n 4: accountmenu bekijken"
-				+ "\n 5: adresmenu bekijken"
+				+ "\n 3: klantmenu bekijken (under construction)"
+				+ "\n 4: accountmenu bekijken (under construction)"
+				+ "\n 5: adresmenu bekijken (under construction)"
 				+ "\n 6: afsluiten"
 				+ "\n");
 		
@@ -52,8 +52,7 @@ public class HoofdMenu {
 		case 1: new ArtikelMenu().start();
 				break;
 		case 2: new BestellingMenu().start();
-								
-			
+                case 6: System.exit(0);
 		}
 		
 	}
